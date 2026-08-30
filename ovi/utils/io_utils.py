@@ -2,7 +2,13 @@ import tempfile
 from typing import Optional
 
 import numpy as np
-from moviepy.editor import ImageSequenceClip, AudioFileClip
+try:
+    # moviepy 2.0 moved everything to the top-level package and dropped
+    # moviepy.editor. gpu-video-base installs moviepy unpinned, so a base
+    # rebuild moved us from 1.x to 2.x and this import started failing.
+    from moviepy import ImageSequenceClip, AudioFileClip
+except ImportError:  # moviepy < 2.0
+    from moviepy.editor import ImageSequenceClip, AudioFileClip
 from scipy.io import wavfile
 
 
